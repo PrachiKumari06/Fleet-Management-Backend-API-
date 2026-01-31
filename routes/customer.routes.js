@@ -8,7 +8,7 @@ async function isCustomer(userId){
 }
 
 router.post("/create",async(req,res)=>{
-    const {customer_id,vehicle_id,start_date,end_date,location,distance_km,passengers,tripCost,isCompleted}=req.body;
+    const {customer_id,vehicle_id,start_date,end_date,location,distance_km,passengers,tripcost,iscompleted}=req.body;
     const is_customer=await isCustomer(customer_id);
     if(!is_customer){
         return res.status(400).json({error:"Invalid customer_id"})
@@ -29,8 +29,8 @@ router.post("/create",async(req,res)=>{
             location,
             distance_km,
             passengers,
-            tripCost,
-            isCompleted
+            tripcost,
+            iscompleted
         }
     ])
     if(error){
@@ -55,8 +55,8 @@ router.patch("/update/:tripId",async(req,res)=>{
         return res.status(400).json({error:"Invalid customer_id"})
     }
     const {tripId}=req.params;
-    const {end_date,location,distance_km,passengers,tripCost,isCompleted}=req.body;
-    const {data,error}=await supabase.from("trip").update({end_date,location,distance_km,passengers,tripCost,isCompleted}).eq("id",tripId);
+    const {end_date,location,distance_km,passengers,tripcost,iscompleted}=req.body;
+    const {data,error}=await supabase.from("trip").update({end_date,location,distance_km,passengers,tripcost,iscompleted}).eq("id",tripId);
     if(error){
         res.status(400).json({error:error.message})
     }else{
@@ -81,13 +81,13 @@ router.delete("/delete/:tripId",async(req,res)=>{
 // end of trip routes
 router.patch("/end/:tripId",async(req,res)=>{
     const {tripId}=req.params;
-    const {end_date,isCompleted}=req.body;
-    if(!isCompleted){
-        return res.status(400).json({error:"isCompleted must be true to end the trip"})
+    const {end_date,iscompleted}=req.body;
+    if(!iscompleted){
+        return res.status(400).json({error:"iscompleted must be true to end the trip"})
     }
     const {data:trip}=await supabase.from("trip").select("distance_km,vehicle_id").eq("id",tripId).single();
 const cost=trip.distance_km* (await supabase.from("vehicles").select("rate_per_km").eq("id",trip.vehicle_id).single()).data.rate_per_km;
-    const {data,error}=await supabase.from("trip").update({end_date,isCompleted,tripCost:cost}).eq("id",tripId);
+    const {data,error}=await supabase.from("trip").update({end_date,iscompleted,tripcost:cost}).eq("id",tripId);
     if(error){
         res.status(400).json({error:error.message})
     }
