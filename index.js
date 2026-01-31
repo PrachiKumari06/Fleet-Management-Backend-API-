@@ -14,6 +14,6 @@ app.use(logger);
 
 app.use('/user', userSignup);
 app.use('/vehicle', vehicleRoutes);
-app.use("trips",tripRoutes);
+app.use("/trips",tripRoutes);
 app.use("/analytics",analyticsRoutes);
 app.listen(port, () => console.log(`app listening on port ${port}!`))

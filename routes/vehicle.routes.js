@@ -4,7 +4,7 @@ import rateLimiter from "../middleware/ratelimiter.middleware.js";
 const router=express.Router();
 
 router.post("/add",rateLimiter,async(req,res)=>{
-const {owner_id,name,registration_num,allowed_passengers,isAvailable,rate_per_km,driver_id}=req.body;
+const {owner_id,name,registration_num,allowed_passengers,isavailable,rate_per_km,driver_id}=req.body;
 const {data:owner}=await supabase.from("users").select("*").eq("id",owner_id).eq("role","owner").single();
 if(!owner){
     return res.status(400).json({error:"Invalid owner_id"})
@@ -15,7 +15,7 @@ const {data,error}=await supabase.from("vehicles").insert([
         name,
         registration_num,
         allowed_passengers, 
-        isAvailable,
+        isavailable,
         rate_per_km,
         driver_id
     }

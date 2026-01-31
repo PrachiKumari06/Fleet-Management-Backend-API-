@@ -10,3 +10,9 @@ rate_per_km integer ,
   owner_id uuid references users(id) on delete cascade on update cascade,
   created_at timestamp default now()
 # endtable
+# constraints
+registration_num unique
+# relationships
+driver_id references users(id)
+owner_id references users(id)
+one owner have many vehicles

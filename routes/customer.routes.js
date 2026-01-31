@@ -77,6 +77,7 @@ router.delete("/delete/:tripId",async(req,res)=>{
         res.status(200).json({message:"Trip deleted successfully",data})
     }
 }); 
+
 // end of trip routes
 router.patch("/end/:tripId",async(req,res)=>{
     const {tripId}=req.params;

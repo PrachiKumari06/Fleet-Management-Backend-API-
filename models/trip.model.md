@@ -12,3 +12,10 @@ tripCost integer,
 isCompleted boolean default false,
   created_at timestamp default now()
 # endtable
+
+
+# constraints
+passengers not greater than allowed_passengers in vehicles 
+# relationships
+customer_id references users(id)
+vehicle_id references vehicles(id)
